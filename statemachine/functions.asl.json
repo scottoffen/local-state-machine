@@ -1,0 +1,21 @@
+{
+  "Comment": "A state machine is for fun",
+  "StartAt": "English Greeting",
+  "States": {
+    "English Greeting": {
+      "Type": "Task",
+      "Resource": "${EnglishGreetingArn}",
+      "Next": "Spanish Greeting"
+    },
+    "Spanish Greeting": {
+      "Type": "Task",
+      "Resource": "${SpanishGreetingArn}",
+      "Next": "German Greeting"
+    },
+    "German Greeting": {
+      "Type": "Task",
+      "Resource": "${GermanGreetingArn}",
+      "End": true
+    }
+  }
+}

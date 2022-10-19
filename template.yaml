@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  local-state-machine
+
+  Sample state machine with lambdas that show how to run everything locally.
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  EnglishGreetingFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: functions/english-greeting/
+      Handler: app.handler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      Events:
+        EnglishGreeting:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /eng
+            Method: get
+
+  SpanishGreetingFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: functions/spanish-greeting/
+      Handler: app.handler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      Events:
+        SpanishGreeting:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /esp
+            Method: get
+
+  GermanGreetingFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: functions/german-greeting/
+      Handler: app.handler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      Events:
+        GermanGreeting:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /de
+            Method: get
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  FunctionsApi:
+    Description: "API Gateway endpoint URL greeting functions"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  EnglishGreetingFunction:
+    Description: "English Greeting Lambda Function ARN"
+    Value: !GetAtt EnglishGreetingFunction.Arn
+  SpanishGreetingFunction:
+    Description: "Spanish Greeting Lambda Function ARN"
+    Value: !GetAtt SpanishGreetingFunction.Arn
+  GermanGreetingFunction:
+    Description: "German Greeting Lambda Function ARN"
+    Value: !GetAtt GermanGreetingFunction.Arn
+  FunctionsIamRole:
+    Description: "Implicit IAM Role created for greeting functions"
+    Value: !GetAtt GreetingFunctionsRole.Arn

@@ -1,0 +1,18 @@
+{
+  "name": "function_a",
+  "version": "1.0.0",
+  "description": "Function A for Step Functions",
+  "main": "app.js",
+  "repository": "",
+  "author": "Some Person",
+  "dependencies": {
+    "axios": ">=0.21.1"
+  },
+  "scripts": {
+    "test": "mocha tests/"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^9.1.4"
+  }
+}
